@@ -1,0 +1,311 @@
+    {
+      "OCI": {
+        "Version": "1.1.0-rc.1",
+        "Process": {
+          "Terminal": false,
+          "User": {
+            "UID": 0,
+            "GID": 0,
+            "AdditionalGids": [],
+            "Username": ""
+          },
+          "Args": [
+            "/bin/sh",
+            "-c",
+            "$SVC_NAME"
+          ],
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+            "SVC_NAME=emojivoto-web",
+            "HOSTNAME=$(host-name)",
+            "WEB_PORT=8080",
+            "EMOJISVC_HOST=127.137.0.1:8081",
+            "VOTINGSVC_HOST=127.137.0.2:8081",
+            "INDEX_BUNDLE=dist/index_bundle.js"
+          ],
+          "Cwd": "/usr/local/bin",
+          "Capabilities": {
+            "Ambient": [],
+            "Bounding": [
+              "$(default_caps)"
+            ],
+            "Effective": [
+              "$(default_caps)"
+            ],
+            "Inheritable": [],
+            "Permitted": [
+              "$(default_caps)"
+            ]
+          },
+          "NoNewPrivileges": false
+        },
+        "Root": {
+          "Path": "$(cpath)/$(bundle-id)",
+          "Readonly": false
+        },
+        "Mounts": [
+          {
+            "destination": "/proc",
+            "source": "proc",
+            "type_": "proc",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev"
+            ]
+          },
+          {
+            "destination": "/dev",
+            "source": "tmpfs",
+            "type_": "tmpfs",
+            "options": [
+              "nosuid",
+              "strictatime",
+              "mode=755",
+              "size=65536k"
+            ]
+          },
+          {
+            "destination": "/dev/pts",
+            "source": "devpts",
+            "type_": "devpts",
+            "options": [
+              "nosuid",
+              "noexec",
+              "newinstance",
+              "ptmxmode=0666",
+              "mode=0620",
+              "gid=5"
+            ]
+          },
+          {
+            "destination": "/dev/shm",
+            "source": "/run/kata-containers/sandbox/shm",
+            "type_": "bind",
+            "options": [
+              "rbind"
+            ]
+          },
+          {
+            "destination": "/dev/mqueue",
+            "source": "mqueue",
+            "type_": "mqueue",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev"
+            ]
+          },
+          {
+            "destination": "/sys",
+            "source": "sysfs",
+            "type_": "sysfs",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/sys/fs/cgroup",
+            "source": "cgroup",
+            "type_": "cgroup",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev",
+              "relatime",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/etc/hosts",
+            "source": "$(sfprefix)hosts$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          },
+          {
+            "destination": "/dev/termination-log",
+            "source": "$(sfprefix)termination-log$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          },
+          {
+            "destination": "/etc/hostname",
+            "source": "$(sfprefix)hostname$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          },
+          {
+            "destination": "/etc/resolv.conf",
+            "source": "$(sfprefix)resolv.conf$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          },
+          {
+            "destination": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "source": "$(sfprefix)serviceaccount$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/var/run/secrets/azure/tokens",
+            "source": "$(sfprefix)tokens$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/tls-config",
+            "source": "^$(cpath)/$(sandbox-id)/local/contrast-tls-certs$",
+            "type_": "local",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          }
+        ],
+        "Annotations": {
+          "io.katacontainers.pkg.oci.bundle_path": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/$(bundle-id)",
+          "io.katacontainers.pkg.oci.container_type": "pod_container",
+          "io.kubernetes.cri.container-name": "web-svc",
+          "io.kubernetes.cri.container-type": "container",
+          "io.kubernetes.cri.image-name": "docker.io/buoyantio/emojivoto-web:v11",
+          "io.kubernetes.cri.sandbox-id": "^[a-z0-9]{64}$",
+          "io.kubernetes.cri.sandbox-namespace": "default"
+        },
+        "Linux": {
+          "Namespaces": [
+            {
+              "Type": "ipc",
+              "Path": ""
+            },
+            {
+              "Type": "uts",
+              "Path": ""
+            },
+            {
+              "Type": "mount",
+              "Path": ""
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/sys/firmware"
+          ],
+          "ReadonlyPaths": [
+            "/proc/asound",
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ],
+          "Devices": []
+        }
+      },
+      "storages": [
+        {
+          "driver": "blk",
+          "driver_options": [],
+          "source": "",
+          "fstype": "tar",
+          "options": [
+            "$(hash0)"
+          ],
+          "mount_point": "$(layer0)",
+          "fs_group": null
+        },
+        {
+          "driver": "blk",
+          "driver_options": [],
+          "source": "",
+          "fstype": "tar",
+          "options": [
+            "$(hash1)"
+          ],
+          "mount_point": "$(layer1)",
+          "fs_group": null
+        },
+        {
+          "driver": "blk",
+          "driver_options": [],
+          "source": "",
+          "fstype": "tar",
+          "options": [
+            "$(hash2)"
+          ],
+          "mount_point": "$(layer2)",
+          "fs_group": null
+        },
+        {
+          "driver": "blk",
+          "driver_options": [],
+          "source": "",
+          "fstype": "tar",
+          "options": [
+            "$(hash3)"
+          ],
+          "mount_point": "$(layer3)",
+          "fs_group": null
+        },
+        {
+          "driver": "overlayfs",
+          "driver_options": [],
+          "source": "",
+          "fstype": "fuse3.kata-overlay",
+          "options": [
+            "9a2c5fff90eb04ab0388840349d94b338775df49382a9ee79ddce787cbf51ae1:1b43d0e44d650e677cecca240c9a9eb3b1da9bdd8df17a384bb6716c122a720f:d7b7b6ff3f667ac59eda656e59ae1ae43578b9136d9d9becb5bb6c77af603d55:265da6fac301228c6da590576b33d04f0decf98acb16b21b0fc0cbd1e9c9e450",
+            "48106a2bcb4b1621821f796d588724dee6e5b59ebb34ecd1cc10e289a2890e99:1ada456980f576e6493e0802ae15059e2cda746d72a86adc8682a779041837f4:406bef2a80e81ea99bf35cde59021058698e3b5018a38725f9dd14fba806905d:10343123cbd169684d0fe509669efa19886de74aec92e75bc4ed933026275750"
+          ],
+          "mount_point": "$(cpath)/$(bundle-id)",
+          "fs_group": null
+        },
+        {
+          "driver": "local",
+          "driver_options": [],
+          "source": "local",
+          "fstype": "local",
+          "options": [
+            "mode=0777"
+          ],
+          "mount_point": "^$(cpath)/$(sandbox-id)/local/contrast-tls-certs$",
+          "fs_group": null
+        }
+      ],
+      "devices": [],
+      "sandbox_pidns": false,
+      "exec_commands": []
+    }

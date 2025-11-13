@@ -1,0 +1,130 @@
+policy_data := {
+  "containers": [
+  ],
+  "common": {
+    "cpath": "/run/kata-containers/shared/containers",
+    "sfprefix": "^$(cpath)/$(bundle-id)-[a-z0-9]{16}-",
+    "spath": "/run/kata-containers/sandbox/storage",
+    "ipv4_a": "((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}",
+    "ip_p": "[0-9]{1,5}",
+    "svc_name": "[A-Z0-9_\\.\\-]+",
+    "dns_label": "[a-zA-Z0-9_\\.\\-]+",
+    "default_caps": [
+      "CAP_CHOWN",
+      "CAP_DAC_OVERRIDE",
+      "CAP_FSETID",
+      "CAP_FOWNER",
+      "CAP_MKNOD",
+      "CAP_NET_RAW",
+      "CAP_SETGID",
+      "CAP_SETUID",
+      "CAP_SETFCAP",
+      "CAP_SETPCAP",
+      "CAP_NET_BIND_SERVICE",
+      "CAP_SYS_CHROOT",
+      "CAP_KILL",
+      "CAP_AUDIT_WRITE"
+    ],
+    "privileged_caps": [
+      "CAP_CHOWN",
+      "CAP_DAC_OVERRIDE",
+      "CAP_DAC_READ_SEARCH",
+      "CAP_FOWNER",
+      "CAP_FSETID",
+      "CAP_KILL",
+      "CAP_SETGID",
+      "CAP_SETUID",
+      "CAP_SETPCAP",
+      "CAP_LINUX_IMMUTABLE",
+      "CAP_NET_BIND_SERVICE",
+      "CAP_NET_BROADCAST",
+      "CAP_NET_ADMIN",
+      "CAP_NET_RAW",
+      "CAP_IPC_LOCK",
+      "CAP_IPC_OWNER",
+      "CAP_SYS_MODULE",
+      "CAP_SYS_RAWIO",
+      "CAP_SYS_CHROOT",
+      "CAP_SYS_PTRACE",
+      "CAP_SYS_PACCT",
+      "CAP_SYS_ADMIN",
+      "CAP_SYS_BOOT",
+      "CAP_SYS_NICE",
+      "CAP_SYS_RESOURCE",
+      "CAP_SYS_TIME",
+      "CAP_SYS_TTY_CONFIG",
+      "CAP_MKNOD",
+      "CAP_LEASE",
+      "CAP_AUDIT_WRITE",
+      "CAP_AUDIT_CONTROL",
+      "CAP_SETFCAP",
+      "CAP_MAC_OVERRIDE",
+      "CAP_MAC_ADMIN",
+      "CAP_SYSLOG",
+      "CAP_WAKE_ALARM",
+      "CAP_BLOCK_SUSPEND",
+      "CAP_AUDIT_READ",
+      "CAP_PERFMON",
+      "CAP_BPF",
+      "CAP_CHECKPOINT_RESTORE"
+    ],
+    "virtio_blk_storage_classes": [
+      "cc-local-csi",
+      "cc-managed-csi",
+      "cc-managed-premium-csi"
+    ],
+    "smb_storage_classes": [
+      "cc-azurefile-csi",
+      "cc-azurefile-premium-csi"
+    ]
+  },
+  "sandbox": {
+    "storages": [
+      {
+        "driver": "ephemeral",
+        "driver_options": [],
+        "source": "shm",
+        "fstype": "tmpfs",
+        "options": [
+          "noexec",
+          "nosuid",
+          "nodev",
+          "mode=1777",
+          "size=67108864"
+        ],
+        "mount_point": "/run/kata-containers/sandbox/shm",
+        "fs_group": null
+      }
+    ]
+  },
+  "request_defaults": {
+    "CreateContainerRequest": {
+      "allow_env_regex": [
+        "^HOSTNAME=$(dns_label)$",
+        "^$(svc_name)_PORT_$(ip_p)_TCP=tcp://$(ipv4_a):$(ip_p)$",
+        "^$(svc_name)_PORT_$(ip_p)_TCP_PROTO=tcp$",
+        "^$(svc_name)_PORT_$(ip_p)_TCP_PORT=$(ip_p)$",
+        "^$(svc_name)_PORT_$(ip_p)_TCP_ADDR=$(ipv4_a)$",
+        "^$(svc_name)_SERVICE_HOST=$(ipv4_a)$",
+        "^$(svc_name)_SERVICE_PORT=$(ip_p)$",
+        "^$(svc_name)_SERVICE_PORT_$(dns_label)=$(ip_p)$",
+        "^$(svc_name)_PORT=tcp://$(ipv4_a):$(ip_p)$",
+        "^AZURE_CLIENT_ID=[A-Fa-f0-9-]*$",
+        "^AZURE_TENANT_ID=[A-Fa-f0-9-]*$",
+        "^AZURE_FEDERATED_TOKEN_FILE=/var/run/secrets/azure/tokens/azure-identity-token$",
+        "^AZURE_AUTHORITY_HOST=https://login\\.microsoftonline\\.com/$"
+      ]
+    },
+    "CopyFileRequest": [
+      "$(sfprefix)"
+    ],
+    "ExecProcessRequest": {
+      "commands": [],
+      "regex": []
+    },
+    "CloseStdinRequest": false,
+    "ReadStreamRequest": true,
+    "UpdateEphemeralMountsRequest": false,
+    "WriteStreamRequest": false
+  }
+}

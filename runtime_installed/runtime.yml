@@ -1,0 +1,59 @@
+apiVersion: node.k8s.io/v1
+handler: contrast-cc-73b9805c032589b19b48e4d388307874
+kind: RuntimeClass
+metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: Reconcile
+  name: contrast-cc-73b9805c032589b19b48e4d388307874
+overhead:
+  podFixed:
+    memory: 1152Mi
+scheduling:
+  nodeSelector:
+    kubernetes.azure.com/kata-cc-isolation: "true"
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app.kubernetes.io/name: contrast-node-installer
+  name: contrast-node-installer
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: contrast-node-installer
+  template:
+    metadata:
+      annotations:
+        contrast.edgeless.systems/pod-role: contrast-node-installer
+      labels:
+        app.kubernetes.io/name: contrast-node-installer
+    spec:
+      containers:
+      - image: k8s.gcr.io/pause
+        name: pause
+        resources:
+          limits:
+            memory: 10Mi
+          requests:
+            memory: 10Mi
+      hostPID: true
+      initContainers:
+      - image: ghcr.io/edgelesssys/contrast/node-installer:v0.7.1@sha256:fa74ab1c1f7716de065777c4b4ba6472e30001defdb48c6df272730cf2eeb47d
+        name: installer
+        resources:
+          limits:
+            memory: 100Mi
+          requests:
+            memory: 100Mi
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - mountPath: /host
+          name: host-mount
+      volumes:
+      - hostPath:
+          path: /
+          type: Directory
+        name: host-mount

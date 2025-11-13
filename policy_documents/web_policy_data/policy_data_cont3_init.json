@@ -1,0 +1,272 @@
+    {
+      "OCI": {
+        "Version": "1.1.0-rc.1",
+        "Process": {
+          "Terminal": false,
+          "User": {
+            "UID": 0,
+            "GID": 0,
+            "AdditionalGids": [],
+            "Username": ""
+          },
+          "Args": [
+            "/nix/store/qhydkqy0yi7h5hw96hhxcs372lmx3kdf-contrast-0.7.1-initializer/bin/initializer"
+          ],
+          "Env": [
+            "PATH=/bin",
+            "HOSTNAME=$(host-name)",
+            "COORDINATOR_HOST=coordinator"
+          ],
+          "Cwd": "/",
+          "Capabilities": {
+            "Ambient": [],
+            "Bounding": [
+              "$(default_caps)"
+            ],
+            "Effective": [
+              "$(default_caps)"
+            ],
+            "Inheritable": [],
+            "Permitted": [
+              "$(default_caps)"
+            ]
+          },
+          "NoNewPrivileges": false
+        },
+        "Root": {
+          "Path": "$(cpath)/$(bundle-id)",
+          "Readonly": false
+        },
+        "Mounts": [
+          {
+            "destination": "/proc",
+            "source": "proc",
+            "type_": "proc",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev"
+            ]
+          },
+          {
+            "destination": "/dev",
+            "source": "tmpfs",
+            "type_": "tmpfs",
+            "options": [
+              "nosuid",
+              "strictatime",
+              "mode=755",
+              "size=65536k"
+            ]
+          },
+          {
+            "destination": "/dev/pts",
+            "source": "devpts",
+            "type_": "devpts",
+            "options": [
+              "nosuid",
+              "noexec",
+              "newinstance",
+              "ptmxmode=0666",
+              "mode=0620",
+              "gid=5"
+            ]
+          },
+          {
+            "destination": "/dev/shm",
+            "source": "/run/kata-containers/sandbox/shm",
+            "type_": "bind",
+            "options": [
+              "rbind"
+            ]
+          },
+          {
+            "destination": "/dev/mqueue",
+            "source": "mqueue",
+            "type_": "mqueue",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev"
+            ]
+          },
+          {
+            "destination": "/sys",
+            "source": "sysfs",
+            "type_": "sysfs",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/sys/fs/cgroup",
+            "source": "cgroup",
+            "type_": "cgroup",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev",
+              "relatime",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/etc/hosts",
+            "source": "$(sfprefix)hosts$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          },
+          {
+            "destination": "/dev/termination-log",
+            "source": "$(sfprefix)termination-log$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          },
+          {
+            "destination": "/etc/hostname",
+            "source": "$(sfprefix)hostname$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          },
+          {
+            "destination": "/etc/resolv.conf",
+            "source": "$(sfprefix)resolv.conf$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          },
+          {
+            "destination": "/var/run/secrets/kubernetes.io/serviceaccount",
+            "source": "$(sfprefix)serviceaccount$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/var/run/secrets/azure/tokens",
+            "source": "$(sfprefix)tokens$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "rprivate",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/tls-config",
+            "source": "^$(cpath)/$(sandbox-id)/local/contrast-tls-certs$",
+            "type_": "local",
+            "options": [
+              "rbind",
+              "rprivate",
+              "rw"
+            ]
+          }
+        ],
+        "Annotations": {
+          "io.katacontainers.pkg.oci.bundle_path": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/$(bundle-id)",
+          "io.katacontainers.pkg.oci.container_type": "pod_container",
+          "io.kubernetes.cri.container-name": "contrast-initializer",
+          "io.kubernetes.cri.container-type": "container",
+          "io.kubernetes.cri.image-name": "ghcr.io/edgelesssys/contrast/initializer:v0.7.1@sha256:6a9439f67c55b9fabd7f4e437cbe052e82d2f51e13a52dd18ab738f54563a4b3",
+          "io.kubernetes.cri.sandbox-id": "^[a-z0-9]{64}$",
+          "io.kubernetes.cri.sandbox-namespace": "default"
+        },
+        "Linux": {
+          "Namespaces": [
+            {
+              "Type": "ipc",
+              "Path": ""
+            },
+            {
+              "Type": "uts",
+              "Path": ""
+            },
+            {
+              "Type": "mount",
+              "Path": ""
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/proc/sched_debug",
+            "/proc/scsi",
+            "/sys/firmware"
+          ],
+          "ReadonlyPaths": [
+            "/proc/asound",
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ],
+          "Devices": []
+        }
+      },
+      "storages": [
+        {
+          "driver": "blk",
+          "driver_options": [],
+          "source": "",
+          "fstype": "tar",
+          "options": [
+            "$(hash0)"
+          ],
+          "mount_point": "$(layer0)",
+          "fs_group": null
+        },
+        {
+          "driver": "overlayfs",
+          "driver_options": [],
+          "source": "",
+          "fstype": "fuse3.kata-overlay",
+          "options": [
+            "ee2b979e25b59d093d29ed1a1a6eb18bd28e46a98b522d28c7a53e835213e571",
+            "9fd400b039021dd1c68c93bc565fa85d49d1fb2a21b4f05c1b5743e965f0b74a"
+          ],
+          "mount_point": "$(cpath)/$(bundle-id)",
+          "fs_group": null
+        },
+        {
+          "driver": "local",
+          "driver_options": [],
+          "source": "local",
+          "fstype": "local",
+          "options": [
+            "mode=0777"
+          ],
+          "mount_point": "^$(cpath)/$(sandbox-id)/local/contrast-tls-certs$",
+          "fs_group": null
+        }
+      ],
+      "devices": [],
+      "sandbox_pidns": false,
+      "exec_commands": []
+     },

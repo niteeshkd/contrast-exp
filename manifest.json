@@ -1,0 +1,30 @@
+{
+  "Policies": {
+    "1e3ea6613cde1866c7f33844c4a2523a92a16ddc801470d9ee28e570e61296bd": [
+      "emoji",
+      "*"
+    ],
+    "a7a3469153dfe6975952934f15db8182422398763d0707ef842eee4c36317e3c": [
+      "voting",
+      "*"
+    ],
+    "caf92dfa701b8d7f321e2d504d39f2828f817e8455042814d6a4a6dc510496d9": [
+      "web",
+      "*"
+    ]
+  },
+  "ReferenceValues": {
+    "SNP": {
+      "MinimumTCB": {
+        "BootloaderVersion": 3,
+        "TEEVersion": 0,
+        "SNPVersion": 8,
+        "MicrocodeVersion": 115
+      }
+    },
+    "TrustedMeasurement": "73b9805c032589b19b48e4d388307874e5e865ae01960772fa3287a011dd0b8d45cceb677741548892adfc997d6c7a5d"
+  },
+  "WorkloadOwnerKeyDigests": [
+    "3d48c7e0e0144837caa5674db160802911b93df0518b04fdb4bebd6ac972f8e0"
+  ]
+}

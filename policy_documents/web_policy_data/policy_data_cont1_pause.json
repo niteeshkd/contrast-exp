@@ -1,0 +1,189 @@
+    {
+      "OCI": {
+        "Version": "1.1.0-rc.1",
+        "Process": {
+          "Terminal": false,
+          "User": {
+            "UID": 65535,
+            "GID": 65535,
+            "AdditionalGids": [],
+            "Username": ""
+          },
+          "Args": [
+            "/pause"
+          ],
+          "Env": [
+            "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+          ],
+          "Cwd": "/",
+          "Capabilities": {
+            "Ambient": [],
+            "Bounding": [
+              "$(default_caps)"
+            ],
+            "Effective": [
+              "$(default_caps)"
+            ],
+            "Inheritable": [],
+            "Permitted": [
+              "$(default_caps)"
+            ]
+          },
+          "NoNewPrivileges": true
+        },
+        "Root": {
+          "Path": "$(cpath)/$(bundle-id)",
+          "Readonly": true
+        },
+        "Mounts": [
+          {
+            "destination": "/proc",
+            "source": "proc",
+            "type_": "proc",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev"
+            ]
+          },
+          {
+            "destination": "/dev",
+            "source": "tmpfs",
+            "type_": "tmpfs",
+            "options": [
+              "nosuid",
+              "strictatime",
+              "mode=755",
+              "size=65536k"
+            ]
+          },
+          {
+            "destination": "/dev/pts",
+            "source": "devpts",
+            "type_": "devpts",
+            "options": [
+              "nosuid",
+              "noexec",
+              "newinstance",
+              "ptmxmode=0666",
+              "mode=0620",
+              "gid=5"
+            ]
+          },
+          {
+            "destination": "/dev/shm",
+            "source": "/run/kata-containers/sandbox/shm",
+            "type_": "bind",
+            "options": [
+              "rbind"
+            ]
+          },
+          {
+            "destination": "/dev/mqueue",
+            "source": "mqueue",
+            "type_": "mqueue",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev"
+            ]
+          },
+          {
+            "destination": "/sys",
+            "source": "sysfs",
+            "type_": "sysfs",
+            "options": [
+              "nosuid",
+              "noexec",
+              "nodev",
+              "ro"
+            ]
+          },
+          {
+            "destination": "/etc/resolv.conf",
+            "source": "$(sfprefix)resolv.conf$",
+            "type_": "bind",
+            "options": [
+              "rbind",
+              "ro",
+              "nosuid",
+              "nodev",
+              "noexec"
+            ]
+          }
+        ],
+        "Annotations": {
+          "io.katacontainers.pkg.oci.bundle_path": "/run/containerd/io.containerd.runtime.v2.task/k8s.io/$(bundle-id)",
+          "io.katacontainers.pkg.oci.container_type": "pod_sandbox",
+          "io.kubernetes.cri.container-type": "sandbox",
+          "io.kubernetes.cri.sandbox-id": "^[a-z0-9]{64}$",
+          "io.kubernetes.cri.sandbox-log-directory": "^/var/log/pods/$(sandbox-namespace)_$(sandbox-name)_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$",
+          "io.kubernetes.cri.sandbox-namespace": "default",
+          "nerdctl/network-namespace": "^/var/run/netns/cni-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "Linux": {
+          "Namespaces": [
+            {
+              "Type": "ipc",
+              "Path": ""
+            },
+            {
+              "Type": "uts",
+              "Path": ""
+            },
+            {
+              "Type": "mount",
+              "Path": ""
+            }
+          ],
+          "MaskedPaths": [
+            "/proc/acpi",
+            "/proc/asound",
+            "/proc/kcore",
+            "/proc/keys",
+            "/proc/latency_stats",
+            "/proc/timer_list",
+            "/proc/timer_stats",
+            "/proc/sched_debug",
+            "/sys/firmware",
+            "/proc/scsi"
+          ],
+          "ReadonlyPaths": [
+            "/proc/bus",
+            "/proc/fs",
+            "/proc/irq",
+            "/proc/sys",
+            "/proc/sysrq-trigger"
+          ],
+          "Devices": []
+        }
+      },
+      "storages": [
+        {
+          "driver": "blk",
+          "driver_options": [],
+          "source": "",
+          "fstype": "tar",
+          "options": [
+            "$(hash0)"
+          ],
+          "mount_point": "$(layer0)",
+          "fs_group": null
+        },
+        {
+          "driver": "overlayfs",
+          "driver_options": [],
+          "source": "",
+          "fstype": "fuse3.kata-overlay",
+          "options": [
+            "5a5aad80055ff20012a50dc25f8df7a29924474324d65f7d5306ee8ee27ff71d",
+            "817250f1a3e336da76f5bd3fa784e1b26d959b9c131876815ba2604048b70c18"
+          ],
+          "mount_point": "$(cpath)/$(bundle-id)",
+          "fs_group": null
+        }
+      ],
+      "devices": [],
+      "sandbox_pidns": false,
+      "exec_commands": []
+    }
